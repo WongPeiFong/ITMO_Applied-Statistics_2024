@@ -67,3 +67,18 @@ plot(pca_result$x[,1], pca_result$x[,2],
      main = "PCA Scores: PC1 vs. PC2 with Environmental Heterogeneity",
      col = env_df$EnvHet, pch = 20)
 legend("topright", legend = "EnvHet", fill = topo.colors(length(unique(env_df$EnvHet))))
+
+nmds_result <- metaMDS(data_df, distance = "bray")
+
+plot(nmds_result, type = "n")
+
+text(nmds_result, display = "species", cex = 0.8)
+
+envfit_result <- envfit(nmds_result ~ ., env_df)
+plot(nmds_result, type = "n")
+ordisurf(nmds_result, env_df$Precipitation, main = "nMDS Ordination with Precipitation")
+ordisurf(nmds_result, env_df$Elevation, main = "nMDS Ordination with Elevation")
+ordisurf(nmds_result, env_df$Habitat, main = "nMDS Ordination with Habitat")
+ordisurf(nmds_result, env_df$EnvHet, main = "nMDS Ordination with Environmental Heterogeneity")
+
+print(envfit_result)
